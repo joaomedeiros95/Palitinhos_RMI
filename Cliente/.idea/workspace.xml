@@ -541,7 +541,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1462452273711</updated>
-      <workItem from="1462452277277" duration="426000" />
+      <workItem from="1462452277277" duration="487000" />
     </task>
     <task id="LOCAL-00001" summary="Adicionada pasta src.">
       <created>1462452329168</created>
@@ -554,7 +554,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="426000" />
+    <option name="totallyTimeSpent" value="487000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1366" height="723" extended-state="6" />
