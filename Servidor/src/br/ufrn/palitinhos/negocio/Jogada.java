@@ -1,5 +1,6 @@
+package br.ufrn.palitinhos.negocio;
+
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 
 /**
  * 
@@ -9,7 +10,7 @@ import java.rmi.server.UnicastRemoteObject;
  * @author joao
  *
  */
-public class Jogada extends UnicastRemoteObject implements IJogada {
+public class Jogada implements IJogada {
 	
 	private static final long serialVersionUID = 12345113265432345L;
 	
