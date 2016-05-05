@@ -1,28 +1,36 @@
 package br.ufrn.palitinhos.negocio;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * 
- */
+import br.ufrn.palitinhos.dominio.Aposta;
+import br.ufrn.palitinhos.excecao.InvalidApostaException;
 
 /**
  * @author joao
  *
  */
 public class Jogada implements IJogada {
+		
+	private int somaPalitos= 0;
+	private List<Aposta> apostas = new ArrayList<Aposta>(); 
 	
-	private static final long serialVersionUID = 12345113265432345L;
-	
-	protected Jogada() throws RemoteException {
+	protected Jogada()  {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
-	public void realizarJogada(int palpite, int quantPalitosJogados, int id) throws RemoteException {
-		// TODO Auto-generated method stub
+	public void realizarJogada(Aposta aposta, int quantPalitosJogados)  {
 		
+		for(Aposta i: apostas){
+			if(i.getQuantPalitos() == aposta.getQuantPalitos()){
+				throw new InvalidApostaException("Aposta já realizada, insira outra aposta");
+			}
+		}
+		somaPalitos = somaPalitos + quantPalitosJogados;
+		apostas.add(aposta);
 	}
 
 	@Override
@@ -36,5 +44,7 @@ public class Jogada implements IJogada {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 }
