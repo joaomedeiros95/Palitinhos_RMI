@@ -29,8 +29,8 @@ public class PalitinhosGUI {
             player4 = ImageIO.read(new File("resources/imagens/player4.png"));
             player5 = ImageIO.read(new File("resources/imagens/player5.png"));
             player6 = ImageIO.read(new File("resources/imagens/player6.png"));
-            palito = ImageIO.read(new File("resources/imagens/palito1.jpg"));
-            garrafa = ImageIO.read(new File("resources/imagens/garrafa51.jpg"));
+            palito = ImageIO.read(new File("resources/imagens/fosforo.png"));
+            garrafa = ImageIO.read(new File("resources/imagens/garrafa.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
