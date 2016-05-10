@@ -18,9 +18,9 @@ public class PalitinhosGUI {
     private static BufferedImage palito;
     private static BufferedImage garrafa;
 
-    private static int cana = 1;
+    private static JPanel panel;
 
-    public static void createImages() {
+    private static void createImages() {
         try {
             mesa = ImageIO.read(new File("resources/imagens/mesa.jpg"));
             player1 = ImageIO.read(new File("resources/imagens/player1.png"));
@@ -44,28 +44,68 @@ public class PalitinhosGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(mesa.getWidth(null), mesa.getHeight(null));
         frame.setVisible(true);
+        frame.setResizable(false);
 
         return frame;
     }
 
+    private static void addJogador(int player) {
+        JLabel label = new JLabel();
+        BufferedImage image = null;
+        String position;
 
-    public static void main(String args[]) {
+        switch (player) {
+            case 1:
+                image = player1;
+                position = BorderLayout.NORTH;
+                break;
+            case 2:
+                image = player2;
+                position = BorderLayout.NORTH;
+                break;
+            case 3:
+                image = player3;
+                position = BorderLayout.SOUTH;
+                break;
+            case 4:
+                image = player4;
+                position = BorderLayout.SOUTH;
+                break;
+            case 5:
+                image = player5;
+                position = BorderLayout.EAST;
+                break;
+            default:
+                image = player6;
+                position = BorderLayout.WEST;
+                break;
+        }
+
+        label.setIcon(new ImageIcon(image));
+        label.setHorizontalAlignment(JLabel.CENTER);
+
+        panel.add(label, position);
+        panel.revalidate();
+        panel.repaint();
+    }
+
+    public PalitinhosGUI() {
         JFrame frame = buildFrame();
 
-        JPanel panel = new JPanel() {
+        panel = new JPanel() {
             @Override
             protected void paintComponent(Graphics graphics) {
                 super.paintComponent(graphics);
                 graphics.drawImage(mesa, 0, 0, null);
                 graphics.drawImage(garrafa, 480, 330, null);
 
-                // jogadores da mesa
-                graphics.drawImage(player1, 300, 50, null);
-                graphics.drawImage(player2, 550, 50, null);
-                graphics.drawImage(player3, 45, 300, null);
-                graphics.drawImage(player4, 800, 300, null);
-                graphics.drawImage(player5, 300, 570, null);
-                graphics.drawImage(player6, 550, 570, null);
+//                // jogadores da mesa
+//                graphics.drawImage(player1, 300, 50, null);
+//                graphics.drawImage(player2, 550, 50, null);
+//                graphics.drawImage(player3, 45, 300, null);
+//                graphics.drawImage(player4, 800, 300, null);
+//                graphics.drawImage(player5, 300, 570, null);
+//                graphics.drawImage(player6, 550, 570, null);
 
                 // palitos do jogador amarelo
                 graphics.drawImage(palito, 350, 460, null);
@@ -74,7 +114,20 @@ public class PalitinhosGUI {
             }
         };
 
+        panel.setLayout(new BorderLayout());
+        panel.setSize(mesa.getWidth(null), mesa.getHeight(null));
+
         frame.add(panel);
+    }
+
+    public static void main(String args[]) {
+        new PalitinhosGUI();
+        Scanner scan = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("Escreve um jogador");
+            addJogador(scan.nextInt());
+        }
     }
 
 }
