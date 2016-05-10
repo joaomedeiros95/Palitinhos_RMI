@@ -1,3 +1,5 @@
+package br.ufrn.palitinhos.gui;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,6 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class PalitinhosGUI {
+
     private static BufferedImage mesa;
     private static BufferedImage player1;
     private static BufferedImage player2;
@@ -55,17 +58,51 @@ public class PalitinhosGUI {
 
         for(int i = 0; i < panelsInternos.length; i++) {
             panelsInternos[i] = new JPanel();
-            panelsInternos[i].setSize(mesa.getWidth(null) / 6, mesa.getHeight(null));
-            panelsInternos[i].setLayout(new GridLayout(1, 2));
+            panelsInternos[i].setSize(mesa.getWidth(null) / 6, mesa.getHeight(null) / 3);
+            panelsInternos[i].setLayout(new GridLayout(1, 4));
             panelsInternos[i].setOpaque(false);
 
             panel.add(panelsInternos[i]);
             panel.revalidate();
-            panel.repaint();
         }
     }
 
-    private static void addJogador(int player, String nome) {
+    public static void updateStatus(int pos, String status) {
+        JLabel statusLabel = new JLabel();
+        statusLabel.setText(status);
+
+        if(panelsInternos[pos - 1].getComponentCount() > 3) { //já possui o painel de palitos
+            panelsInternos[pos - 1].remove(3);
+        }
+
+        panelsInternos[pos - 1].add(statusLabel);
+        panelsInternos[pos - 1].revalidate();
+    }
+
+    public static void colocarPalitos(int pos, int qtdPalitos) {
+        JPanel palitos = new JPanel();
+
+        if(panelsInternos[pos - 1].getComponentCount() > 2) { //já possui o painel de palitos
+            panelsInternos[pos - 1].remove(2);
+        }
+
+        if(qtdPalitos > 0) {
+            palitos.setLayout(new GridLayout(1, qtdPalitos));
+            palitos.setOpaque(false);
+
+            for(int i = 0; i < qtdPalitos; i++) {
+                JLabel image = new JLabel();
+                image.setIcon(new ImageIcon(palito));
+
+                palitos.add(image);
+            }
+
+            panelsInternos[pos - 1].add(palitos);
+            panelsInternos[pos - 1].revalidate();
+        }
+    }
+
+    public static void addJogador(int player, String nome) {
         JLabel imageLabel = new JLabel();
         JLabel nomeLabel = new JLabel();
 
@@ -104,11 +141,12 @@ public class PalitinhosGUI {
 
         nomeLabel.setText(nome);
         nomeLabel.setHorizontalAlignment(JLabel.LEFT);
+        nomeLabel.setFont(new Font("Times New Roman", Font.BOLD, 25));
+        nomeLabel.setForeground(Color.WHITE);
 
         panelsInternos[player - 1].add(imageLabel);
         panelsInternos[player - 1].add(nomeLabel);
         panelsInternos[player - 1].revalidate();
-        panelsInternos[player - 1].repaint();
     }
 
     public PalitinhosGUI() {
@@ -128,20 +166,6 @@ public class PalitinhosGUI {
         buildPanels();
 
         frame.add(panel);
-    }
-
-    public static void main(String args[]) {
-        new PalitinhosGUI();
-        Scanner scan = new Scanner(System.in);
-
-//        for(int i = 1; i < 7; i++) {
-//            addJogador(i, "João");
-//        }
-
-        while (true) {
-            System.out.println("Escreve um jogador");
-            addJogador(scan.nextInt(), "João");
-        }
     }
 
 }
