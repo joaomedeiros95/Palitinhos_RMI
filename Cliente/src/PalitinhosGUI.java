@@ -19,6 +19,7 @@ public class PalitinhosGUI {
     private static BufferedImage garrafa;
 
     private static JPanel panel;
+    private static JPanel[] panelsInternos;
 
     private static void createImages() {
         try {
@@ -49,8 +50,25 @@ public class PalitinhosGUI {
         return frame;
     }
 
-    private static void addJogador(int player) {
-        JLabel label = new JLabel();
+    private static void buildPanels() {
+        panelsInternos = new JPanel[6];
+
+        for(int i = 0; i < panelsInternos.length; i++) {
+            panelsInternos[i] = new JPanel();
+            panelsInternos[i].setSize(mesa.getWidth(null) / 6, mesa.getHeight(null));
+            panelsInternos[i].setLayout(new GridLayout(1, 2));
+            panelsInternos[i].setOpaque(false);
+
+            panel.add(panelsInternos[i]);
+            panel.revalidate();
+            panel.repaint();
+        }
+    }
+
+    private static void addJogador(int player, String nome) {
+        JLabel imageLabel = new JLabel();
+        JLabel nomeLabel = new JLabel();
+
         BufferedImage image = null;
         String position;
 
@@ -81,12 +99,16 @@ public class PalitinhosGUI {
                 break;
         }
 
-        label.setIcon(new ImageIcon(image));
-        label.setHorizontalAlignment(JLabel.CENTER);
+        imageLabel.setIcon(new ImageIcon(image));
+        imageLabel.setHorizontalAlignment(JLabel.LEFT);
 
-        panel.add(label, position);
-        panel.revalidate();
-        panel.repaint();
+        nomeLabel.setText(nome);
+        nomeLabel.setHorizontalAlignment(JLabel.LEFT);
+
+        panelsInternos[player - 1].add(imageLabel);
+        panelsInternos[player - 1].add(nomeLabel);
+        panelsInternos[player - 1].revalidate();
+        panelsInternos[player - 1].repaint();
     }
 
     public PalitinhosGUI() {
@@ -98,24 +120,12 @@ public class PalitinhosGUI {
                 super.paintComponent(graphics);
                 graphics.drawImage(mesa, 0, 0, null);
                 graphics.drawImage(garrafa, 480, 330, null);
-
-//                // jogadores da mesa
-//                graphics.drawImage(player1, 300, 50, null);
-//                graphics.drawImage(player2, 550, 50, null);
-//                graphics.drawImage(player3, 45, 300, null);
-//                graphics.drawImage(player4, 800, 300, null);
-//                graphics.drawImage(player5, 300, 570, null);
-//                graphics.drawImage(player6, 550, 570, null);
-
-                // palitos do jogador amarelo
-                graphics.drawImage(palito, 350, 460, null);
-                graphics.drawImage(palito, 372, 460, null);
-                graphics.drawImage(palito, 395, 460, null);
             }
         };
 
-        panel.setLayout(new BorderLayout());
+        panel.setLayout(new GridLayout(6, 1));
         panel.setSize(mesa.getWidth(null), mesa.getHeight(null));
+        buildPanels();
 
         frame.add(panel);
     }
@@ -124,9 +134,13 @@ public class PalitinhosGUI {
         new PalitinhosGUI();
         Scanner scan = new Scanner(System.in);
 
+//        for(int i = 1; i < 7; i++) {
+//            addJogador(i, "João");
+//        }
+
         while (true) {
             System.out.println("Escreve um jogador");
-            addJogador(scan.nextInt());
+            addJogador(scan.nextInt(), "João");
         }
     }
 
