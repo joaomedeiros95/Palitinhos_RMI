@@ -9,6 +9,20 @@ import java.util.List;
 public class Sala implements SalaInterface {
 	private List<Jogador> jogadores = new ArrayList<Jogador>();
 	private int proximoJogador = 0;
+	private Rodada rodada;	
+
+	public Sala(Rodada rodada) {
+		super();
+		this.rodada = new Rodada();
+	}
+
+	public Rodada getRodada() {
+		return rodada;
+	}
+
+	public void setRodada(Rodada rodada) {
+		this.rodada = rodada;
+	}
 
 	/* (non-Javadoc)
 	 * @see br.ufrn.palitinhos.negocio.SalaInterface#getJogadores()
@@ -75,8 +89,14 @@ public class Sala implements SalaInterface {
 		proximoJogador++;
 		if(proximoJogador == jogadores.size()){
 			proximoJogador = 0;
+			//Imprime resultado
+			rodada = new Rodada();
 		}
 		return retorno;
+	}
+	
+	public void removerPalito(int id){
+		jogadores.get(id).decrementarQuantPalitos();
 	}
 	
 
