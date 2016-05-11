@@ -2,6 +2,7 @@ package br.ufrn.palitinhos.negocio;
 
 import java.util.ArrayList;
 
+import br.ufrn.palitinhos.dominio.Aposta;
 import br.ufrn.palitinhos.dominio.Jogador;
 
 public interface SalaInterface {
@@ -15,5 +16,9 @@ public interface SalaInterface {
 	void deleteJogador(int id);
 
 	Jogador proximoJogador();
+
+	boolean esperar(int id);
+
+    void realizarJogada(Aposta aposta, int quantPalitosJogados);
 
 }

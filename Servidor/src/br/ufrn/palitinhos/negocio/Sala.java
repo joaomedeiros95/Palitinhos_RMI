@@ -1,4 +1,5 @@
 package br.ufrn.palitinhos.negocio;
+import br.ufrn.palitinhos.dominio.Aposta;
 import br.ufrn.palitinhos.dominio.Jogador;
 import br.ufrn.palitinhos.excecao.InvalidJogadorException;
 
@@ -11,7 +12,7 @@ public class Sala implements SalaInterface {
 	private int proximoJogador = 0;
 	private Rodada rodada;	
 
-	public Sala(Rodada rodada) {
+	public Sala() {
 		super();
 		this.rodada = new Rodada();
 	}
@@ -94,8 +95,23 @@ public class Sala implements SalaInterface {
 		}
 		return retorno;
 	}
-	
-	public void removerPalito(int id){
+
+	@Override
+	public boolean esperar(int id) {
+		if(id == proximoJogador().getId()) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+    @Override
+    public void realizarJogada(Aposta aposta, int quantPalitosJogados) {
+        rodada.realizarJogada(aposta, quantPalitosJogados);
+        proximoJogador();
+    }
+
+    public void removerPalito(int id){
 		jogadores.get(id).decrementarQuantPalitos();
 	}
 	

@@ -35,12 +35,6 @@ public class Rodada implements RodadaInterface {
 	}
 
 	@Override
-	public boolean esperar(int id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public int divulgarResultado() {
 		int retorno = -1;
 		for(Aposta i: apostas){
