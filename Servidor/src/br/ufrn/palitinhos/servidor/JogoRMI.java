@@ -3,6 +3,7 @@ package br.ufrn.palitinhos.servidor;
 import br.ufrn.palitinhos.dominio.Aposta;
 import br.ufrn.palitinhos.dominio.Jogador;
 import br.ufrn.palitinhos.negocio.Sala;
+import br.ufrn.palitinhos.negocio.SalaInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -13,7 +14,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class  JogoRMI extends UnicastRemoteObject implements Jogo {
 
     private static final long serialVersionUID = 938102786005220066L;
-    private Sala sala;
+    private SalaInterface sala;
     private Integer idJogador;
 
     protected JogoRMI() throws RemoteException {
@@ -24,7 +25,7 @@ public class  JogoRMI extends UnicastRemoteObject implements Jogo {
     @Override
     public Jogador inscreverSala(String nome) throws RemoteException {
         Jogador jogador = new Jogador(nome, idJogador++);
-        sala.insertJogador(jogador);
+        sala.inscreverJogador(jogador);
 
         return jogador;
     }

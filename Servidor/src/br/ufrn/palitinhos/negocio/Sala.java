@@ -1,23 +1,25 @@
 package br.ufrn.palitinhos.negocio;
 import br.ufrn.palitinhos.dominio.Aposta;
 import br.ufrn.palitinhos.dominio.Jogador;
-import br.ufrn.palitinhos.excecao.InvalidJogadorException;
-
-import java.util.ArrayList;
-import java.util.List;
+import br.ufrn.palitinhos.dominio.Jogadores;
+import br.ufrn.palitinhos.utils.SalaThread;
 
 
 public class Sala implements SalaInterface {
-	private List<Jogador> jogadores = new ArrayList<Jogador>();
+	private Jogadores jogadores;
 	private int proximoJogador = 0;
-	private Rodada rodada;	
+	private RodadaInterface rodada;
+	private boolean jogoIniciou;
+    private SalaThread salaThread;
 
 	public Sala() {
 		super();
 		this.rodada = new Rodada();
+        this.jogadores = new Jogadores();
+        salaThread = new SalaThread(this);
 	}
 
-	public Rodada getRodada() {
+	public RodadaInterface getRodada() {
 		return rodada;
 	}
 
@@ -25,70 +27,19 @@ public class Sala implements SalaInterface {
 		this.rodada = rodada;
 	}
 
-	/* (non-Javadoc)
-	 * @see br.ufrn.palitinhos.negocio.SalaInterface#getJogadores()
-	 */
-	@Override
-	public ArrayList<Jogador> getJogadores() {
-		return (ArrayList<Jogador>) jogadores;
-	}
+    public void inscreverJogador(Jogador jogador) {
+        jogadores.insertJogador(jogador);
 
-	/* (non-Javadoc)
-	 * @see br.ufrn.palitinhos.negocio.SalaInterface#setJogadores(java.util.ArrayList)
-	 */
-	@Override
-	public void setJogadores(ArrayList<Jogador> jogadores) {
-		this.jogadores = jogadores;	
-		
-	}
-	
-	private int buscarJogador(int id){
-		int retorno = -1;
-		for(int i = 0; i < jogadores.size(); i++){
-			if(jogadores.get(i).getId() == id){
-				retorno = i;
-				break;
-			}
-		}
-		return retorno;		
-	}
-	
-	/* (non-Javadoc)
-	 * @see br.ufrn.palitinhos.negocio.SalaInterface#insertJogador(br.ufrn.palitinhos.dominio.Jogador)
-	 */
-	@Override
-	public void insertJogador(Jogador jogador) {
-		if (buscarJogador(jogador.getId()) != -1){
-			jogadores.add(jogador);	
-		}
-		else{
-			throw new InvalidJogadorException("Jogador já inserido");
-		}
+        if(!jogoIniciou && !salaThread.isAlive()) {
+            salaThread.run();
+        }
+    }
 
-	}
-	
-	/* (non-Javadoc)
-	 * @see br.ufrn.palitinhos.negocio.SalaInterface#deleteJogador(int)
-	 */
-	@Override
-	public void deleteJogador(int id) {	
-		int i = buscarJogador(id);
-		if (i != -1){
-			jogadores.remove(i);
-		}
-		else {
-			throw new InvalidJogadorException("Jogador não estava na lista");
-		}
-	}
-	
-	/* (non-Javadoc)
-	 * @see br.ufrn.palitinhos.negocio.SalaInterface#proximoJogador()
-	 */
 	@Override
 	public Jogador proximoJogador(){
-		Jogador retorno = jogadores.get(proximoJogador);
+		Jogador retorno = jogadores.buscarJogadorObj(proximoJogador);
 		proximoJogador++;
-		if(proximoJogador == jogadores.size()){
+		if(proximoJogador == jogadores.getJogadores().size()){
 			proximoJogador = 0;
 			//Imprime resultado
 			rodada = new Rodada();
@@ -98,6 +49,10 @@ public class Sala implements SalaInterface {
 
 	@Override
 	public boolean esperar(int id) {
+		if(!jogoIniciou) {
+			return false;
+		}
+
 		if(id == proximoJogador().getId()) {
 			return false;
 		} else {
@@ -111,8 +66,20 @@ public class Sala implements SalaInterface {
         proximoJogador();
     }
 
-    public void removerPalito(int id){
-		jogadores.get(id).decrementarQuantPalitos();
+    public Jogadores getJogadores() {
+        return jogadores;
+    }
+
+    public boolean isJogoIniciou() {
+        return jogoIniciou;
+    }
+
+    public void setJogoIniciou(boolean jogoIniciou) {
+        this.jogoIniciou = jogoIniciou;
+    }
+
+    private void removerPalito(int id){
+		jogadores.buscarJogadorObj(id).decrementarQuantPalitos();
 	}
 	
 

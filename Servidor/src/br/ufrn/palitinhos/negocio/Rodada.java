@@ -15,7 +15,7 @@ public class Rodada implements RodadaInterface {
 		
 	private int somaPalitos= 0;
 	private List<Aposta> apostas = new ArrayList<Aposta>();
-	private boolean  estaAtiva = true;
+	private boolean estaAtiva = true;
 	
 	protected Rodada()  {
 		super();
