@@ -1,4 +1,4 @@
-package br.ufrn.palitinhos;
+package br.ufrn.palitinhos.servidor;
 
 import java.rmi.Remote;
 

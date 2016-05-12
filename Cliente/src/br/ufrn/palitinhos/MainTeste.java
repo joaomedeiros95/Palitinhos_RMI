@@ -8,7 +8,7 @@ import java.util.Scanner;
 /**
  * Created by joao on 10/05/16.
  */
-public class Main {
+public class MainTeste {
 
     public static void main(String args[]) {
         PalitinhosGUI gui = new PalitinhosGUI();
