@@ -23,7 +23,7 @@ public class SalaThread extends Thread {
 
                 if(tamanho < Parametros.MINIMO_JOGADORES) {
                     System.out.println("Sala ainda não alcançou o tamanho mínimo. " + tamanho + " jogadores em sala.");
-                    sleep(1000);
+                    sleep(2000);
                     continue;
                 } else {
                     if(tamanho == Parametros.MAXIMO_JOGADORES) {

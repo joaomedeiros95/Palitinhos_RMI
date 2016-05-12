@@ -47,7 +47,7 @@ public class Jogadores {
     }
 
     public void insertJogador(Jogador jogador) {
-        if (buscarJogador(jogador.getId()) != -1){
+        if (buscarJogador(jogador.getId()) == -1){
             jogadores.add(jogador);
         }
         else {
