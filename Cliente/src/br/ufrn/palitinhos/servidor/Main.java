@@ -20,7 +20,9 @@ public class Main {
 
             String serverURL="rmi://" + IP + "/" + METHOD;
             jogo = (Jogo) Naming.lookup(serverURL);
-            System.out.println(jogo.divulgarResultado());
+
+            jogo.inscreverSala("João");
+            jogo.inscreverSala("Stefano");
         } catch (NotBoundException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
