@@ -8,8 +8,8 @@ public class Server {
 		try {
 			System.setSecurityManager(new SecurityManager());
 			JogoRMI jogo = new JogoRMI();
-			Naming.rebind("//localhost/Hello", jogo);
-			System.out.println("Jokenpo server is ready");
+			Naming.rebind("//localhost/Jogo", jogo);
+			System.out.println("Palitinhos server is ready");
 						
 		} catch (Exception e) {
 			System.out.println("Exception: Jokenpo Server failed: " + e);
