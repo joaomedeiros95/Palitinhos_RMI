@@ -1,6 +1,10 @@
 package br.ufrn.palitinhos.dominio;
 
-public class Jogador {
+import java.io.Serializable;
+
+public class Jogador implements Serializable {
+
+	private static final long serialVersionUID = -3165665194765081410L;
 
 	private int quantPalitos;
 	private String nome;
@@ -55,6 +59,10 @@ public class Jogador {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}	
-	
+	}
+
+    @Override
+    public String toString() {
+        return "====== JOGADOR ======\nId: " + this.id + " Nome: " + this.nome;
+    }
 }
