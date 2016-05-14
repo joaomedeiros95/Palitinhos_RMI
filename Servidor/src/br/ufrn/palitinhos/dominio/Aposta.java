@@ -1,7 +1,11 @@
 package br.ufrn.palitinhos.dominio;
 
-public class Aposta {
-	
+import java.io.Serializable;
+
+public class Aposta implements Serializable {
+
+	private static final long serialVersionUID = -4733497404513143331L;
+
 	private int id;
 	private int quantPalitos;
 		

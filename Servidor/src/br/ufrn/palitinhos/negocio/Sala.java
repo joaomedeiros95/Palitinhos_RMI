@@ -2,12 +2,13 @@ package br.ufrn.palitinhos.negocio;
 import br.ufrn.palitinhos.dominio.Aposta;
 import br.ufrn.palitinhos.dominio.Jogador;
 import br.ufrn.palitinhos.dominio.Jogadores;
+import br.ufrn.palitinhos.excecao.InvalidJogadorException;
 import br.ufrn.palitinhos.utils.SalaThread;
 
 
 public class Sala implements SalaInterface {
 	private Jogadores jogadores;
-	private int proximoJogador = 0;
+	private int proximoJogador = 1;
 	private RodadaInterface rodada;
 	private boolean jogoIniciou;
     private SalaThread salaThread;
@@ -28,32 +29,44 @@ public class Sala implements SalaInterface {
 	}
 
     public void inscreverJogador(Jogador jogador) {
+		if(jogoIniciou) {
+			throw new InvalidJogadorException("O jogo já iniciou!");
+		}
+
         jogadores.insertJogador(jogador);
 
         if(!jogoIniciou && !salaThread.isAlive()) {
-            salaThread.run();
+            salaThread.start();
         }
     }
 
-	@Override
-	public Jogador proximoJogador(){
+    @Override
+    public Jogador proximoJogador() {
+        return proximoJogador(true);
+    }
+
+	public Jogador proximoJogador(boolean incrementar){
 		Jogador retorno = jogadores.buscarJogadorObj(proximoJogador);
-		proximoJogador++;
-		if(proximoJogador == jogadores.getJogadores().size()){
-			proximoJogador = 0;
-			//Imprime resultado
-			rodada = new Rodada();
-		}
+
+        if(incrementar) {
+            proximoJogador++;
+            if(proximoJogador == jogadores.getJogadores().size()){
+                proximoJogador = 0;
+                //Imprime resultado
+                rodada = new Rodada();
+            }
+        }
+
 		return retorno;
 	}
 
 	@Override
 	public boolean esperar(int id) {
 		if(!jogoIniciou) {
-			return false;
+			return true;
 		}
 
-		if(id == proximoJogador().getId()) {
+		if(id == proximoJogador(false).getId()) {
 			return false;
 		} else {
 			return true;

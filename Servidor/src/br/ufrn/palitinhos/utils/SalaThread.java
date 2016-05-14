@@ -43,6 +43,7 @@ public class SalaThread extends Thread {
                          */
                         if(tempTamanho == sala.getJogadores().getJogadores().size()) {
                             sala.setJogoIniciou(true);
+                            System.out.println("Jogo começou!");
                             break;
                         }
                     }

@@ -37,12 +37,12 @@ public class Jogadores {
     }
 
     public Jogador buscarJogadorObj(int id){
-        int retorno = -1;
         for(int i = 0; i < jogadores.size(); i++){
             if(jogadores.get(i).getId() == id){
                 return jogadores.get(i);
             }
         }
+
         return null;
     }
 
