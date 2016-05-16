@@ -1,6 +1,7 @@
 package br.ufrn.palitinhos.servidor;
 
 import br.ufrn.palitinhos.dominio.Jogador;
+import br.ufrn.palitinhos.dominio.Resposta;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -11,9 +12,8 @@ import java.rmi.RemoteException;
 public interface Jogo extends Remote {
 
     Jogador inscreverSala(String nome) throws RemoteException;
-    boolean esperar(int id) throws RemoteException;
+    Resposta esperar(int id) throws RemoteException;
     void realizarAposta(int id, int qtdApostada, int qtdPalitosMao) throws RemoteException;
     void getStatus() throws RemoteException;
-    int divulgarResultado() throws RemoteException;
-
+    String divulgarResultado(int idJogador) throws RemoteException;
 }

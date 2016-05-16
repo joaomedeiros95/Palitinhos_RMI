@@ -2,6 +2,7 @@ package br.ufrn.palitinhos.servidor;
 
 import br.ufrn.palitinhos.dominio.Aposta;
 import br.ufrn.palitinhos.dominio.Jogador;
+import br.ufrn.palitinhos.dominio.Resposta;
 import br.ufrn.palitinhos.negocio.Sala;
 import br.ufrn.palitinhos.negocio.SalaInterface;
 
@@ -31,7 +32,7 @@ public class  JogoRMI extends UnicastRemoteObject implements Jogo {
     }
 
     @Override
-    public boolean esperar(int id) throws RemoteException {
+    public Resposta esperar(int id) throws RemoteException {
         return sala.esperar(id);
     }
 
@@ -47,7 +48,7 @@ public class  JogoRMI extends UnicastRemoteObject implements Jogo {
     }
 
     @Override
-    public int divulgarResultado() throws RemoteException {
-        return 0;
+    public String divulgarResultado(int idJogador) throws RemoteException {
+        return sala.divulgarResultado(idJogador);
     }
 }

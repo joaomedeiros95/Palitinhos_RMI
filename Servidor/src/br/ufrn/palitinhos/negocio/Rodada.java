@@ -40,7 +40,7 @@ public class Rodada implements RodadaInterface {
 		for(Aposta i: apostas){
 			if(i.getQuantPalitos() == somaPalitos){
 				System.out.println("Jogador " + i.getId() + "ganhou");
-				 retorno = i.getId();
+			 	retorno = i.getId();
 				break;
 			}
 		}

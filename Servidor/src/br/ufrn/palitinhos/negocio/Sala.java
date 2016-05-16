@@ -2,6 +2,7 @@ package br.ufrn.palitinhos.negocio;
 import br.ufrn.palitinhos.dominio.Aposta;
 import br.ufrn.palitinhos.dominio.Jogador;
 import br.ufrn.palitinhos.dominio.Jogadores;
+import br.ufrn.palitinhos.dominio.Resposta;
 import br.ufrn.palitinhos.excecao.InvalidJogadorException;
 import br.ufrn.palitinhos.utils.SalaThread;
 
@@ -9,6 +10,7 @@ import br.ufrn.palitinhos.utils.SalaThread;
 public class Sala implements SalaInterface {
 	private Jogadores jogadores;
 	private int proximoJogador = 1;
+    private Aposta aposta;
 	private RodadaInterface rodada;
 	private boolean jogoIniciou;
     private SalaThread salaThread;
@@ -41,6 +43,27 @@ public class Sala implements SalaInterface {
     }
 
     @Override
+    public String divulgarResultado(int idJogador) {
+        StringBuilder retorno = new StringBuilder();
+        Jogador jogador = jogadores.buscarJogadorObj(idJogador);
+        Jogador ultimoJogador = null;
+
+        if(aposta != null) {
+            ultimoJogador = jogadores.buscarJogadorObj(aposta.getId());
+        }
+
+        retorno.append("\n==================\n")
+                .append("Tenho " + jogador.getQuantPalitos() + " palitos.\n");
+        if(ultimoJogador != null) {
+            retorno.append("Último jogador foi: " + ultimoJogador.getNome() + ", ele apostou " + aposta.getQuantPalitos() + "\n");
+        }
+        retorno.append("Jogando jogando: " + jogadores.buscarJogadorObj(proximoJogador).getNome());
+        retorno.append("\n==================");
+
+        return retorno.toString();
+    }
+
+    @Override
     public Jogador proximoJogador() {
         return proximoJogador(true);
     }
@@ -49,32 +72,47 @@ public class Sala implements SalaInterface {
 		Jogador retorno = jogadores.buscarJogadorObj(proximoJogador);
 
         if(incrementar) {
-            proximoJogador++;
-            if(proximoJogador == jogadores.getJogadores().size()){
-                proximoJogador = 0;
-                //Imprime resultado
-                rodada = new Rodada();
-            }
+            do {
+                if(proximoJogador >= jogadores.getJogadores().get(jogadores.getJogadores().size() - 1).getId()){
+                    proximoJogador = 1;
+                    verificarGanhador(rodada.divulgarResultado());
+                    rodada = new Rodada();
+                } else {
+                    proximoJogador++;
+                }
+            } while (!jogadores.buscarJogadorObj(proximoJogador).isEstaJogando());
         }
 
 		return retorno;
 	}
 
-	@Override
-	public boolean esperar(int id) {
+    private void verificarGanhador(int idJogador) {
+        if(idJogador != -1) {
+            jogadores.buscarJogadorObj(idJogador).decrementarQuantPalitos();
+        }
+    }
+
+    @Override
+	public Resposta esperar(int id) {
 		if(!jogoIniciou) {
-			return true;
+			return new Resposta(Resposta.AGUARDANDO_INICIAR, true);
 		}
 
+        if(jogadores.buscarJogadorObj(id).isJaJogou()) {
+            return new Resposta(Resposta.AGUARDANDO_FINALIZAR_RODADA, true);
+        }
+
 		if(id == proximoJogador(false).getId()) {
-			return false;
+            return new Resposta(Resposta.AGUARDANDO_JOGADA, false);
 		} else {
-			return true;
+            return new Resposta(Resposta.AGUARDANDO_JOGADA, true);
 		}
 	}
 
     @Override
     public void realizarJogada(Aposta aposta, int quantPalitosJogados) {
+        this.aposta = aposta;
+
         rodada.realizarJogada(aposta, quantPalitosJogados);
         proximoJogador();
     }
