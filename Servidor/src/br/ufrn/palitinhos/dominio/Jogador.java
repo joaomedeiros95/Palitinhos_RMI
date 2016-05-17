@@ -14,7 +14,7 @@ public class Jogador implements Serializable {
 	public Jogador(String nome, int id) {
 		super();
 		this.id = id;
-		this.quantPalitos = 1;
+		this.quantPalitos = 3;
 		this.nome = nome;
 		this.estaJogando = true;
 	}
