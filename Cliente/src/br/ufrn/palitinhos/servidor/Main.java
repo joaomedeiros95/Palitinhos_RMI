@@ -92,6 +92,15 @@ public class Main {
         System.out.println("\nAguardando sua vez de jogar!");
 
         while(true) {
+            if(jogo.esperar(jogador.getId()).getStatus().equals(Resposta.TERMINOU_DE_JOGAR)) {
+                System.out.println("Você terminou seus palitos");
+            }
+
+            if(jogo.esperar(jogador.getId()).getStatus().equals(Resposta.JOGO_TERMINOU)) {
+                System.out.println("Jogo Terminou!");
+                break;
+            }
+
             System.out.printf(".");
             if(jogo.esperar(jogador.getId()).getStatus().equals(Resposta.AGUARDANDO_JOGADA) && !jogo.esperar(jogador.getId()).isAguardar()) {
                 realizarJogada();
