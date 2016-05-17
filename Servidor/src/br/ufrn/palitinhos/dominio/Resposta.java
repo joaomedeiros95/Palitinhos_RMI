@@ -9,7 +9,8 @@ public class Resposta implements Serializable {
 
     public static final Integer AGUARDANDO_INICIAR = 1;
     public static final Integer AGUARDANDO_JOGADA = 2;
-    public static final Integer AGUARDANDO_FINALIZAR_RODADA = 3;
+    public static final Integer TERMINOU_DE_JOGAR = 3;
+    public static final Integer JOGO_TERMINOU = 4;
 
     private Aposta aposta;
     private String nome;

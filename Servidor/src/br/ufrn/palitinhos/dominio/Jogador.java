@@ -10,12 +10,11 @@ public class Jogador implements Serializable {
 	private String nome;
 	private int id;
 	private boolean estaJogando;
-	private boolean jaJogou;
 
 	public Jogador(String nome, int id) {
 		super();
 		this.id = id;
-		this.quantPalitos = 3;
+		this.quantPalitos = 1;
 		this.nome = nome;
 		this.estaJogando = true;
 	}
@@ -60,14 +59,6 @@ public class Jogador implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public boolean isJaJogou() {
-		return jaJogou;
-	}
-
-	public void setJaJogou(boolean jaJogou) {
-		this.jaJogou = jaJogou;
 	}
 
 	@Override
